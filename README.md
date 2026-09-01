@@ -1,4 +1,4 @@
-# IHCs Colocalizer V1.0
+# IHCs Colocalizer
 
 IHCs Colocalizer is a Python-based workflow for quantitative analysis of serial immunohistochemistry (IHC) images from the same biological sample. It supports region-of-interest (ROI) registration across adjacent tissue sections, H-DAB color deconvolution and thresholding, single-marker DAB quantification, and dual-marker spatial colocalization analysis.
 
