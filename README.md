@@ -9,6 +9,10 @@ The workflow is organized into four Python modules:
 3. **Single-marker DAB quantification**
 4. **Dual-marker colocalization analysis**
 
+## Version
+
+V1.0
+
 ## Author
 
 Zonghan Gan
