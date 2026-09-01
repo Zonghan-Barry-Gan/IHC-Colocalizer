@@ -154,27 +154,105 @@ ROI selection → registration → ROI projection/alignment
                                            processing         colocalization
 ```
 
-## Dependencies
+## Environment Requirements
 
-The scripts use the following Python packages and external tools:
+The environment requirements below are extracted from the imports and runtime configuration used in the four source-code modules. Exact package versions are not specified in the current source files.
 
-- Python 3.7 or later
-- NumPy
-- pandas
-- OpenCV (`opencv-python`)
-- Matplotlib
-- Pillow
-- SciPy
-- scikit-image
-- tifffile
-- pyvips
-- roifile
-- VALIS
-- pyimagej
-- scyjava
-- Fiji/ImageJ
+### Python
 
-Some modules require a working Java environment for Fiji/ImageJ and VALIS-related processing.
+The source documentation for Parts 3 and 4 states **Python 3.7 or later**. However, the current source code also uses newer type-annotation syntax such as `str | None` and built-in generic types such as `list[str]`. Therefore, **Python 3.10 or later is recommended for running the source code as currently written**.
+
+### Python Packages
+
+The complete set of third-party Python packages imported across the four modules is:
+
+```text
+numpy
+pandas
+opencv-python
+matplotlib
+Pillow
+scipy
+scikit-image
+tifffile
+pyvips
+roifile
+valis-wsi
+pyimagej
+scyjava
+```
+
+The Python standard-library modules used by the scripts include:
+
+```text
+os
+re
+csv
+shutil
+math
+datetime
+typing
+itertools
+```
+
+### Fiji / ImageJ and Java
+
+Part 2 uses Fiji/ImageJ through `pyimagej` and `scyjava` for H-DAB colour deconvolution.
+
+The current source initializes Fiji using:
+
+```python
+ij = imagej.init('sc.fiji:fiji', mode='interactive')
+```
+
+and configures the Java Virtual Machine with:
+
+```python
+scyjava.config.add_option('-Xmx6g')
+```
+
+Accordingly:
+
+- A working Java environment is required for Part 2.
+- Fiji/ImageJ must be available through the PyImageJ initialization process.
+- The current configuration requests a maximum Java heap size of **6 GB**, so sufficient system memory should be available.
+
+### VALIS and libvips
+
+Part 1 uses:
+
+```text
+valis
+pyvips
+roifile
+```
+
+for serial-section registration, large-image access, and ImageJ ROI input/output.
+
+A working installation of **VALIS** and the native libraries required by **pyvips/libvips** is therefore required for Part 1.
+
+### Module-Specific Requirements
+
+| Module | Main requirements |
+| --- | --- |
+| Part 1 — ROI lasso and registration | NumPy, OpenCV, Matplotlib, pandas, pyvips/libvips, roifile, VALIS |
+| Part 2 — Colour deconvolution and thresholding | NumPy, OpenCV, pandas, Pillow, SciPy, scikit-image, tifffile, PyImageJ, scyjava, Fiji/ImageJ, Java |
+| Part 3 — Single-marker analysis | NumPy, OpenCV, Pillow |
+| Part 4 — Dual-marker colocalization | NumPy, OpenCV, Pillow, pandas |
+
+### Installation Example
+
+A representative Python installation command for the imported Python packages is:
+
+```bash
+pip install numpy pandas opencv-python matplotlib Pillow scipy scikit-image tifffile pyvips roifile valis-wsi pyimagej scyjava
+```
+
+This command reflects the package imports in the current source code. Depending on the operating system, **Java**, **Fiji/ImageJ**, and native **libvips** dependencies may require separate installation or configuration.
+
+### Hardware and Memory
+
+The source code does not define formal minimum CPU, GPU, or RAM requirements. No GPU-specific Python library is explicitly imported in these four modules. Because the workflow processes large pathology images and Part 2 explicitly allocates up to 6 GB of Java heap memory, a system with sufficient RAM for the selected image sizes is recommended.
 
 ## Input Images
 
